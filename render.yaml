@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: nhm-api
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn NHM.wsgi"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: nhm-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+
+databases:
+  - name: nhm-db
+    region: oregon
+    plan: free
